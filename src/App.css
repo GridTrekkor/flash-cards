@@ -2,6 +2,10 @@ body {
   color: #000 !important;
 }
 
+.navbar { background-color: #003246; }
+
+.text-white { color: #FFF; }
+
 .text-bold { font-weight: bold !important; }
 
 .number {

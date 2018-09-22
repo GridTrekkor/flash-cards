@@ -6,6 +6,10 @@ class Cards extends Component {
 
     const { number1, number2 } = this.props;
     const { type, symbol } = this.props.operation;
+    const hasError = {
+      color: '#F00 !imporant',
+      backgroundColor: '#E8BBBB'
+    }
 
     return (
       <div className="p-5">
@@ -30,9 +34,10 @@ class Cards extends Component {
             <div className="row mt-3">
               <div className="col-sm-12">
                 <div className="form-group">
-                  <input autoFocus 
+                  <input autoFocus
+                         style={this.props.isCorrect ? null : hasError}
                          className="form-control float-right" 
-                         value={this.props.input.toString()}
+                         defaultValue={this.props.input.toString()}
                          onChange={this.props.onUpdateInput}
                          onKeyUp={this.props.onAttempt}/>
                 </div>

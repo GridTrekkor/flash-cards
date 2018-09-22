@@ -15,7 +15,8 @@ class App extends Component {
       symbol: '+'
     },
     id: 1,
-    attempts: []
+    attempts: [],
+    isCorrect: true
   };
 
   constructor () {
@@ -56,9 +57,11 @@ class App extends Component {
   handleAttempt = event => {
     if (event.key === 'Enter') {
       const { number1, number2, input } = this.state;
-      if (this.checkAttempt(number1, number2, input)) {
+      const isCorrect = this.checkAttempt(number1, number2, input)
+      if (isCorrect) {
         this.resetParams();
       }
+      this.setState({ isCorrect: isCorrect });
     }
   };
 
@@ -81,6 +84,7 @@ class App extends Component {
                    number1={this.state.number1} 
                    number2={this.state.number2}
                    input={this.state.input}
+                   isCorrect={this.state.isCorrect}
                    operation={this.state.operation} />
           </div>
           <div className="col-sm-6">
