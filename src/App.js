@@ -8,6 +8,10 @@ class App extends Component {
   state = {
     number1: 0,
     number2: 0,
+    operation: {
+      type: 'Addition',
+      symbol: '+'
+    },
     input: 0
   };
 
@@ -22,14 +26,20 @@ class App extends Component {
   };
 
   setNumbers = () => {
-
+    this.setState({
+      number1: this.getRandom(),
+      number2: this.getRandom()
+    });
   };
 
   render () {
     return (
       <React.Fragment>
         <Navbar />
-        <Cards number1={this.state.number1} number2={this.state.number2}/>
+        <Cards reset={this.setNumbers}
+               number1={this.state.number1} 
+               number2={this.state.number2}
+               operation={this.state.operation} />
       </React.Fragment>
     );
   }
