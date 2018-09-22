@@ -2,6 +2,8 @@ body {
   color: #000 !important;
 }
 
+.text-bold { font-weight: bold !important; }
+
 .number {
   font-size: 70px;
 }
@@ -15,10 +17,17 @@ input {
   border: none !important;
 }
 
-.form-control :focus {
+.form-group, .form-control :focus {
   outline: 0px !important;
+  padding: 0;
 }
 
-input :hover {
+input {
+  width: 100px;
+  padding: 0 !important;
+}
+
+input:hover {
   outline: 2px !important;
+  border: 1px solid #333;
 }

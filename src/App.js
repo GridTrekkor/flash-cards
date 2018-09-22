@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './components/navbar';
 import Cards from './components/cards';
+import Scoring from './components/scoring';
 import './App.css';
 
 class App extends Component {
@@ -8,11 +9,13 @@ class App extends Component {
   state = {
     number1: 0,
     number2: 0,
+    input: '',
     operation: {
       type: 'Addition',
       symbol: '+'
     },
-    input: 0
+    id: 1,
+    attempts: []
   };
 
   constructor () {
@@ -32,14 +35,58 @@ class App extends Component {
     });
   };
 
+  checkAttempt = (number1, number2, input) => {
+    const operation = this.state.operation.type;
+    let isCorrect = false;
+    if (operation === 'Addition') {
+      isCorrect = number1 + number2 === input;
+    }
+    let thisAttempt = {
+      id: this.state.id,
+      number1: number1,
+      number2: number2,
+      input: input,
+      isCorrect: isCorrect,
+      symbol: this.state.operation.symbol
+    };
+    this.setState({ id: this.state.id + 1, attempts: [...this.state.attempts, thisAttempt] });
+    return isCorrect;
+  };
+
+  handleAttempt = event => {
+    if (event.key === 'Enter') {
+      const { number1, number2, input } = this.state;
+      if (this.checkAttempt(number1, number2, input)) {
+        this.resetParams();
+      }
+    }
+  };
+
+  resetParams = () => {
+    this.setState({ number1: this.getRandom(), number2: this.getRandom(), input: '' });
+  };
+
+  handleUpdateInput = event => {
+    this.setState({ input: parseInt(event.target.value) });
+  };
+
   render () {
     return (
       <React.Fragment>
         <Navbar />
-        <Cards reset={this.setNumbers}
-               number1={this.state.number1} 
-               number2={this.state.number2}
-               operation={this.state.operation} />
+        <div className="row">
+          <div className="col-sm-6">
+            <Cards onAttempt={this.handleAttempt}
+                   onUpdateInput={this.handleUpdateInput}
+                   number1={this.state.number1} 
+                   number2={this.state.number2}
+                   input={this.state.input}
+                   operation={this.state.operation} />
+          </div>
+          <div className="col-sm-6">
+            <Scoring attempts={this.state.attempts} />
+          </div>
+        </div>
       </React.Fragment>
     );
   }
