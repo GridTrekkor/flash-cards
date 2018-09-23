@@ -8,11 +8,11 @@ body {
 
 .text-bold { font-weight: bold !important; }
 
-.number {
-  font-size: 70px;
-}
+.number { font-size: 70px; }
 
 input {
+  width: 100px;
+  padding: 0 !important;
   font-weight: normal !important;
   text-align: right;
   color: #000 !important;
@@ -26,12 +26,12 @@ input {
   padding: 0;
 }
 
-input {
-  width: 100px;
-  padding: 0 !important;
-}
-
 input:hover {
   outline: 2px !important;
   border: 1px solid #333;
 }
+
+.title {
+  margin: 7px 0 -9px 14px;
+}
+

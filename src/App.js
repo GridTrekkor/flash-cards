@@ -14,15 +14,17 @@ class App extends Component {
       type: 'Addition',
       symbol: '+'
     },
-    id: 1,
     attempts: [],
-    isCorrect: true
+    isCorrect: true,
+    elapsedTime: 0
   };
 
   constructor () {
     super();
     this.state.number1 = this.getRandom();
     this.state.number2 = this.getRandom();
+    this.startTime = new Date();
+    this.handleAttempt = this.handleAttempt.bind(this);
   }
 
   getRandom = () => {
@@ -36,7 +38,7 @@ class App extends Component {
     });
   };
 
-  checkAttempt = (number1, number2, input) => {
+  checkAttempt = (number1, number2, input, elapsedTime) => {
     const operation = this.state.operation.type;
     let isCorrect = false;
     if (operation === 'Addition') {
@@ -48,7 +50,8 @@ class App extends Component {
       number2: number2,
       input: input,
       isCorrect: isCorrect,
-      symbol: this.state.operation.symbol
+      symbol: this.state.operation.symbol,
+      elapsedTime: elapsedTime
     };
     this.setState({ id: this.state.id + 1, attempts: [...this.state.attempts, thisAttempt] });
     return isCorrect;
@@ -56,12 +59,14 @@ class App extends Component {
 
   handleAttempt = event => {
     if (event.key === 'Enter') {
+      let elapsedTime = (new Date() - this.startTime) / 1000;
       const { number1, number2, input } = this.state;
-      const isCorrect = this.checkAttempt(number1, number2, input)
+      const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime)
       if (isCorrect) {
         this.resetParams();
       }
-      this.setState({ isCorrect: isCorrect });
+      this.startTime = new Date();
+      this.setState({ isCorrect: isCorrect, elapsedTime: this.elapsedTime});
     }
   };
 
