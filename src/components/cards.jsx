@@ -24,7 +24,8 @@ class Cards extends Component {
                   <span className="float-right">{number1}</span>
                 </div>
               </div>
-              <div className="row" style={{ borderBottom: '2px solid #000' }}>
+              <div className="row"
+                style={{ borderBottom: '2px solid #000', marginLeft: '25px' }}>
                 <div className="col-sm-6">
                   <span className="float-right">{symbol}</span>
                 </div>
@@ -38,8 +39,8 @@ class Cards extends Component {
                     <input autoFocus
                       style={this.props.isCorrect ? null : hasError}
                       className="form-control float-right"
-                      defaultValue={this.props.input.toString()}
-                      onChange={this.props.onUpdateInput}
+                      value={this.props.input.toString()}
+                      onChange={this.props.onChange}
                       onKeyUp={this.props.onAttempt} />
                   </div>
                 </div>

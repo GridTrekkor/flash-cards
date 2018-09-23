@@ -24,7 +24,7 @@ class App extends Component {
     this.state.number1 = this.getRandom();
     this.state.number2 = this.getRandom();
     this.startTime = new Date();
-    this.handleAttempt = this.handleAttempt.bind(this);
+    this.handleAttempt = this.handleAttempt.bind(this); // required so handleAttempt has access to 'this'
   }
 
   getRandom = () => {
@@ -64,6 +64,8 @@ class App extends Component {
       const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime)
       if (isCorrect) {
         this.resetParams();
+      } else {
+        this.setState({ input: '' });
       }
       this.startTime = new Date();
       this.setState({ isCorrect: isCorrect, elapsedTime: this.elapsedTime});
@@ -82,17 +84,17 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <div className="row">
-          <div className="col-sm-6">
+        <div className="row mt-3 ml-3">
+          <div className="col-sm-6" style={{ maxWidth: '350px' }}>
             <Cards onAttempt={this.handleAttempt}
-                   onUpdateInput={this.handleUpdateInput}
+                   onChange={this.handleUpdateInput}
                    number1={this.state.number1} 
                    number2={this.state.number2}
                    input={this.state.input}
                    isCorrect={this.state.isCorrect}
                    operation={this.state.operation} />
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-6" style={{ maxWidth: '500px' }}>
             <Scoring attempts={this.state.attempts} />
           </div>
         </div>

@@ -35,3 +35,6 @@ input:hover {
   margin: 7px 0 -9px 14px;
 }
 
+.table {
+    overflow-y: scroll;
+}
