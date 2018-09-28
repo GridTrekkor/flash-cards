@@ -6,16 +6,19 @@ class Navbar extends Component {
             <nav className="navbar navbar-light justify-content-start">
                 <span className="navbar-brand mb-0 text-white">Flash Cards</span>
                 <button type="button"
+                        onClick={() => { this.props.onChangeOperation('Addition', '+')}}
                         style={{ backgroundColor: '#7E91EA' }}
                         className="btn btn-sm width-110 text-white ml-4">
                     Addition
                 </button>
                 <button type="button"
+                        onClick={() => { this.props.onChangeOperation('Subtraction', '-')}}
                         style={{ backgroundColor: '#B73107' }}
                         className="btn btn-sm width-110 text-white ml-4">
                     Subtraction
                 </button>
                 <button type="button"
+                        onClick={() => { this.props.onChangeOperation('Multiplication', '*')}}
                         style={{ backgroundColor: '#915A38' }}
                         className="btn btn-sm width-110 text-white ml-4">
                     Multiplication

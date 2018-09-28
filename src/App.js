@@ -7,17 +7,17 @@ import './App.css';
 class App extends Component {
 
   state = {
+    attempts: [],
+    elapsedTime: 0,
+    input: '',
+    isCorrect: true,
+    max: 12,
     number1: 0,
     number2: 0,
-    input: '',
     operation: {
-      type: 'Addition',
-      symbol: '+'
-    },
-    attempts: [],
-    isCorrect: true,
-    elapsedTime: 0,
-    max: 12
+        type: 'Addition',
+        symbol: '+'
+      }
   };
 
   constructor () {
@@ -32,19 +32,25 @@ class App extends Component {
     return Math.floor(Math.random() * (this.state.max + 1));
   };
 
-  setNumbers = () => {
-    this.setState({
-      number1: this.getRandom(),
-      number2: this.getRandom()
-    });
-  };
+  // setNumbers = () => {
+  //   this.setState({
+  //     number1: this.getRandom(),
+  //     number2: this.getRandom()
+  //   });
+  // };
 
   checkAttempt = (number1, number2, input, elapsedTime) => {
     const operation = this.state.operation.type;
     let isCorrect = false;
+
     if (operation === 'Addition') {
       isCorrect = number1 + number2 === input;
+    } else if (operation === 'Subtraction') {
+      isCorrect = number1 - number2 === input;
+    } else if (operation === 'Multiplication') {
+      isCorrect = number1 * number2 === input;
     }
+
     let thisAttempt = {
       id: this.state.id,
       number1: number1,
@@ -74,11 +80,29 @@ class App extends Component {
   };
 
   resetParams = () => {
-    this.setState({ number1: this.getRandom(), number2: this.getRandom(), input: '' });
+    const number1 = this.getRandom();
+    const number2 = this.getRandom();
+    this.setState({ number1: number1, number2: number2, input: '' }, () => {
+      if (this.state.operation.type === 'Subtraction' && number1 - number2 < 0) {
+        this.resetParams();
+      }
+    });
   };
 
   handleUpdateInput = event => {
     this.setState({ input: parseInt(event.target.value, 10) });
+  };
+
+  handleOperationChange = (type, symbol) => {
+    if (symbol === '-') {
+      symbol = String.fromCharCode(8211)
+    }
+    if (symbol === '*') {
+      symbol = String.fromCharCode(10005);
+    }
+    this.setState({ operation: { type: type, symbol: symbol } }, () => {
+        this.resetParams();
+    });
   };
 
   handleMaxChange  = event => {
@@ -94,6 +118,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar max={this.state.max}
+                onChangeOperation={this.handleOperationChange}
                 onChange={this.handleMaxChange}
                 onSubmit={this.handleMaxSubmit} />
         <div className="row mt-3 ml-3">

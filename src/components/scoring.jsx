@@ -4,7 +4,7 @@ class Scoring extends Component {
 
   getCorrect = isCorrect => {
     return isCorrect ? String.fromCharCode(10004) : String.fromCharCode(10006);
-  }
+  };
 
   render () {
 
