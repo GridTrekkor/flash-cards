@@ -1,17 +1,16 @@
-body {
-  color: #000 !important;
-}
-
-.navbar { background-color: #003246; }
-
+body { color: #000 !important; }
+.navbar { background-color: #126384; }
 .text-white { color: #FFF; }
-
 .text-bold { font-weight: bold !important; }
-
+.text-14 { font-size: 14px; }
 .number { font-size: 70px; }
+.title { margin: 7px 0 -9px 14px; }
+.table { overflow-y: scroll; }
+.width-110 { width: 110px !important; }
+.height-30 { height: 30px !important; }
 
-input {
-  width: 100px;
+input.attempt {
+  /*width: 100px;*/
   padding: 0 !important;
   font-weight: normal !important;
   text-align: right;
@@ -21,20 +20,16 @@ input {
   border: none !important;
 }
 
-.form-group, .form-control :focus {
-  outline: 0px !important;
-  padding: 0;
-}
-
-input:hover {
+input:hover.attempt  {
   outline: 2px !important;
   border: 1px solid #333;
 }
 
-.title {
-  margin: 7px 0 -9px 14px;
+.form-control:focus.attempt {
+  outline: 0 !important;
+  padding: 0;
+  /* hide light blue border on input */
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
-.table {
-    overflow-y: scroll;
-}

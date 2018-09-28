@@ -16,7 +16,8 @@ class App extends Component {
     },
     attempts: [],
     isCorrect: true,
-    elapsedTime: 0
+    elapsedTime: 0,
+    max: 12
   };
 
   constructor () {
@@ -28,7 +29,7 @@ class App extends Component {
   }
 
   getRandom = () => {
-    return Math.floor((Math.random() * 9) + 0);
+    return Math.floor(Math.random() * (this.state.max + 1));
   };
 
   setNumbers = () => {
@@ -61,7 +62,7 @@ class App extends Component {
     if (event.key === 'Enter') {
       let elapsedTime = (new Date() - this.startTime) / 1000;
       const { number1, number2, input } = this.state;
-      const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime)
+      const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime);
       if (isCorrect) {
         this.resetParams();
       } else {
@@ -77,13 +78,24 @@ class App extends Component {
   };
 
   handleUpdateInput = event => {
-    this.setState({ input: parseInt(event.target.value) });
+    this.setState({ input: parseInt(event.target.value, 10) });
+  };
+
+  handleMaxChange  = event => {
+    this.setState({ max: parseInt(event.target.value, 10) });
+  };
+
+  handleMaxSubmit = event => {
+    this.resetParams();
+    event.preventDefault();
   };
 
   render () {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar max={this.state.max}
+                onChange={this.handleMaxChange}
+                onSubmit={this.handleMaxSubmit} />
         <div className="row mt-3 ml-3">
           <div className="col-sm-6" style={{ maxWidth: '350px' }}>
             <Cards onAttempt={this.handleAttempt}
@@ -91,6 +103,7 @@ class App extends Component {
                    number1={this.state.number1} 
                    number2={this.state.number2}
                    input={this.state.input}
+                   max={this.state.max}
                    isCorrect={this.state.isCorrect}
                    operation={this.state.operation} />
           </div>

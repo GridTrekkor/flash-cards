@@ -9,7 +9,7 @@ class Cards extends Component {
     const hasError = {
       color: '#F00 !imporant',
       backgroundColor: '#E8BBBB'
-    }
+    };
 
     return (
       <div className="pt-4 px-3">
@@ -38,7 +38,7 @@ class Cards extends Component {
                   <div className="form-group">
                     <input autoFocus
                       style={this.props.isCorrect ? null : hasError}
-                      className="form-control float-right"
+                      className="attempt form-control float-right"
                       value={this.props.input.toString()}
                       onChange={this.props.onChange}
                       onKeyUp={this.props.onAttempt} />
