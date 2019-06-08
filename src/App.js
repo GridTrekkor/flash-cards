@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './components/navbar';
 import Cards from './components/cards';
-import Scoring from './components/scoring';
+// import Scoring from './components/scoring';
 import './App.css';
 
 class App extends Component {
@@ -49,10 +49,11 @@ class App extends Component {
       isCorrect = number1 - number2 === input;
     } else if (operation === 'Multiplication') {
       isCorrect = number1 * number2 === input;
+    } else if (operation === 'Division') {
+      isCorrect = number1 / number2 === input;
     }
 
     let thisAttempt = {
-      id: this.state.id,
       number1: number1,
       number2: number2,
       input: input,
@@ -60,37 +61,53 @@ class App extends Component {
       symbol: this.state.operation.symbol,
       elapsedTime: elapsedTime
     };
-    this.setState({ id: this.state.id + 1, attempts: [...this.state.attempts, thisAttempt] });
+    const attempts = this.state.attempts;
+    attempts.push(thisAttempt);
+    this.setState({ attempts: attempts });
     return isCorrect;
   };
 
   handleAttempt = event => {
-    if (event.key === 'Enter') {
-      let elapsedTime = (new Date() - this.startTime) / 1000;
-      const { number1, number2, input } = this.state;
-      const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime);
-      if (isCorrect) {
-        this.resetParams();
-      } else {
-        this.setState({ input: '' });
-      }
-      this.startTime = new Date();
-      this.setState({ isCorrect: isCorrect, elapsedTime: this.elapsedTime});
+    if (event.key !== 'Enter') {
+      return;
+    }
+    let elapsedTime = (new Date() - this.startTime) / 1000;
+    const { number1, number2 } = this.state;
+    const input = parseInt(event.target.value, 10);
+    const isCorrect = this.checkAttempt(number1, number2, input, elapsedTime);
+    if (isCorrect) {
+      this.resetParams();
+    } else {
+      this.setState({ input: '' });
+    }
+    this.startTime = new Date();
+    this.setState({ isCorrect: isCorrect, elapsedTime: this.elapsedTime});
+  };
+
+  handleUpdateInput = event => {
+    const val = parseInt(event.target.value, 10);
+    if (!isNaN(val)) {
+      this.setState({ input: val });
+    } else {
+      this.setState({ input: event.target.value });
     }
   };
 
   resetParams = () => {
-    const number1 = this.getRandom();
-    const number2 = this.getRandom();
+    const operation = this.state.operation.type;
+    let number1 = this.getRandom();
+    let number2 = this.getRandom();
+    if (operation === 'Division') {
+      number1 = number1 * number2;
+    }
     this.setState({ number1: number1, number2: number2, input: '' }, () => {
-      if (this.state.operation.type === 'Subtraction' && number1 - number2 < 0) {
+      if (operation === 'Subtraction' && number1 - number2 < 0) {
+        this.resetParams();
+      }
+      if (operation === 'Division' && (number1 < number2 || number1 % number2 !== 0)) {
         this.resetParams();
       }
     });
-  };
-
-  handleUpdateInput = event => {
-    this.setState({ input: parseInt(event.target.value, 10) });
   };
 
   handleOperationChange = (type, symbol) => {
@@ -99,6 +116,9 @@ class App extends Component {
     }
     if (symbol === '*') {
       symbol = String.fromCharCode(10005);
+    }
+    if (symbol === '÷') {
+      this.setState({ max: 9 });
     }
     this.setState({ operation: { type: type, symbol: symbol } }, () => {
         this.resetParams();
@@ -132,9 +152,9 @@ class App extends Component {
                    isCorrect={this.state.isCorrect}
                    operation={this.state.operation} />
           </div>
-          <div className="col-sm-6" style={{ maxWidth: '500px' }}>
+          {/* <div className="col-sm-6" style={{ maxWidth: '500px' }}>
             <Scoring attempts={this.state.attempts} />
-          </div>
+          </div> */}
         </div>
       </React.Fragment>
     );

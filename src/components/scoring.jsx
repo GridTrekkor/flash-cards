@@ -6,10 +6,12 @@ class Scoring extends Component {
     return isCorrect ? String.fromCharCode(10004) : String.fromCharCode(10006);
   };
 
+  attempts = [];
+
   render () {
 
-    if (this.props.attempts.length) {
-      this.attempts = this.props.attempts.map((item, index) => 
+    if (this.props.attempts.length && this.props.attempts.length !== this.attempts.length) {
+      this.attempts = this.props.attempts.reverse().map((item, index) => 
         <tr key={index} className={item.isCorrect ? 'alert-success' : 'alert-danger'}>
           <td>
             {item.number1}&nbsp;
